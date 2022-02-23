@@ -14,7 +14,7 @@ all: $(images)
 baton-%.sif: baton/baton-%.def
 	SINGULARITYENV_GIT_URL=$(URL) \
 	SINGULARITYENV_GIT_REF=$(TAG) \
-	singularity build $(SINGULARITY_ARGS) $@ $<
+	singularity build --fakeroot $(SINGULARITY_ARGS) $@ $<
 
 clean:
 	rm -f $(foreach image_name,$(image_names), $(image_name).sif)
