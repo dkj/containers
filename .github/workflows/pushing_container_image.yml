@@ -28,9 +28,9 @@ jobs:
       - name: Build
         run: |
             cd docker
-            make GITHUB_ACTOR=${{ env.GITHUB_ACTOR }}
+            make GITHUB_ACTOR=${{ github.actor }}
 
       - name: push images
         run: |
             docker images
-            make push GITHUB_ACTIONS=${{ env.GITHUB_ACTIONS }} GITHUB_ACTOR=${{ env.GITHUB_ACTOR }}
+            make push GITHUB_ACTIONS=${{ env.GITHUB_ACTIONS }} GITHUB_ACTOR=${{ github.actor }}
