@@ -121,7 +121,7 @@ ub-18.04-irods-4.2.11.$(TAG): irods/ubuntu/18.04/Dockerfile ub-18.04-base.$(TAG)
 	touch $@
 
 %.$(TAG).pushed: %.$(TAG)
-	echo docker push $(DOCKER_REGISTRY)/$(DOCKER_USER)/$*:$(TAG)
+	docker push $(DOCKER_REGISTRY)/$(DOCKER_USER)/$*:$(TAG)
 	touch $@
 
 remote-clean:
