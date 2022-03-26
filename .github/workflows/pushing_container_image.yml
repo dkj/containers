@@ -33,4 +33,5 @@ jobs:
       - name: push images
         run: |
             docker images
+            cd docker
             make push GITHUB_ACTIONS=1 GITHUB_ACTOR=${{ github.actor || github.repository_owner }}
