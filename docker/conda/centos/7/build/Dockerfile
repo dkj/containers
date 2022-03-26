@@ -1,4 +1,5 @@
-FROM wsinpg/centos-7-conda:latest
+ARG FROM_PREFIX=wsinpg/
+FROM centos-7-conda:latest
 
 COPY . /opt/docker/conda
 
