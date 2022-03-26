@@ -3,9 +3,11 @@ LABEL_NAMESPACE=uk.ac.sanger
 ifdef GITHUB_ACTIONS
 DOCKER_REGISTRY?=ghcr.io
 DOCKER_USER?=$(GITHUB_ACTOR)
+TAG_PREFIX?=$(DOCKER_REGISTRY)/$(DOCKER_USER)/
 else
 DOCKER_REGISTRY=docker.io
 DOCKER_USER?=wsinpg
+TAG_PREFIX?=$(DOCKER_USER)/
 endif
 
 DOCKER_ARGS ?= --platform linux/amd64
@@ -38,90 +40,90 @@ centos-7-base.$(TAG): base/centos/7/Dockerfile
 	docker build $(DOCKER_ARGS) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/centos-7-base:latest \
-	--tag $(DOCKER_USER)/centos-7-base:$(TAG) --file $< ./base
+	--tag $(TAG_PREFIX)centos-7-base:latest \
+	--tag $(TAG_PREFIX)centos-7-base:$(TAG) --file $< ./base
 	touch $@
 
 ub-16.04-base.$(TAG): base/ubuntu/16.04/Dockerfile
 	docker build $(DOCKER_ARGS) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/ub-16.04-base:latest \
-	--tag $(DOCKER_USER)/ub-16.04-base:$(TAG) --file $< ./base
+	--tag $(TAG_PREFIX)ub-16.04-base:latest \
+	--tag $(TAG_PREFIX)ub-16.04-base:$(TAG) --file $< ./base
 	touch $@
 
 ub-18.04-base.$(TAG): base/ubuntu/18.04/Dockerfile
 	docker build $(DOCKER_ARGS) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/ub-18.04-base:latest \
-	--tag $(DOCKER_USER)/ub-18.04-base:$(TAG) --file $< ./base
+	--tag $(TAG_PREFIX)ub-18.04-base:latest \
+	--tag $(TAG_PREFIX)ub-18.04-base:$(TAG) --file $< ./base
 	touch $@
 
 md-bullseye-base.$(TAG): base/minideb/bullseye/Dockerfile
 	docker build $(DOCKER_ARGS) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/md-bullseye-base:latest \
-	--tag $(DOCKER_USER)/md-bullseye-base:$(TAG) --file $< ./base
+	--tag $(TAG_PREFIX)md-bullseye-base:latest \
+	--tag $(TAG_PREFIX)md-bullseye-base:$(TAG) --file $< ./base
 	touch $@
 
 centos-7-conda.$(TAG): conda/centos/7/Dockerfile centos-7-base.$(TAG)
 	docker build $(DOCKER_ARGS) \
-	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
+	--build-arg FROM_PREFIX=$(TAG_PREFIX) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/centos-7-conda:latest \
-	--tag $(DOCKER_USER)/centos-7-conda:$(TAG) --file $< ./conda
+	--tag $(TAG_PREFIX)centos-7-conda:latest \
+	--tag $(TAG_PREFIX)centos-7-conda:$(TAG) --file $< ./conda
 	touch $@
 
 centos-7-conda-build.$(TAG): conda/centos/7/build/Dockerfile centos-7-conda.$(TAG)
 	docker build $(DOCKER_ARGS) \
-	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
+	--build-arg FROM_PREFIX=$(TAG_PREFIX) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/centos-7-conda-build:latest \
-	--tag $(DOCKER_USER)/centos-7-conda-build:$(TAG) --file $< ./conda
+	--tag $(TAG_PREFIX)centos-7-conda-build:latest \
+	--tag $(TAG_PREFIX)centos-7-conda-build:$(TAG) --file $< ./conda
 	touch $@
 
 md-bullseye-conda.$(TAG): conda/minideb/bullseye/Dockerfile md-bullseye-base.$(TAG)
 	docker build $(DOCKER_ARGS) \
-	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
+	--build-arg FROM_PREFIX=$(TAG_PREFIX) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/md-bullseye-conda:latest \
-	--tag $(DOCKER_USER)/md-bullseye-conda:$(TAG) --file $< ./conda
+	--tag $(TAG_PREFIX)md-bullseye-conda:latest \
+	--tag $(TAG_PREFIX)md-bullseye-conda:$(TAG) --file $< ./conda
 	touch $@
 
 ub-16.04-irods-4.2.7.$(TAG): irods/ubuntu/16.04/Dockerfile ub-16.04-base.$(TAG)
 	docker build $(DOCKER_ARGS) \
-	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
+	--build-arg FROM_PREFIX=$(TAG_PREFIX) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/ub-16.04-irods-4.2.7:latest \
-	--tag $(DOCKER_USER)/ub-16.04-irods-4.2.7:$(TAG) --file $< ./irods
+	--tag $(TAG_PREFIX)ub-16.04-irods-4.2.7:latest \
+	--tag $(TAG_PREFIX)ub-16.04-irods-4.2.7:$(TAG) --file $< ./irods
 	touch $@
 
 ub-18.04-irods-4.2.10.$(TAG): irods/ubuntu/18.04/Dockerfile ub-18.04-base.$(TAG)
 	docker build $(DOCKER_ARGS) --build-arg IRODS_VERSION=4.2.10 \
-	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
+	--build-arg FROM_PREFIX=$(TAG_PREFIX) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/ub-18.04-irods-4.2.10:latest \
-	--tag $(DOCKER_USER)/ub-18.04-irods-4.2.10:$(TAG) --file $< ./irods
+	--tag $(TAG_PREFIX)ub-18.04-irods-4.2.10:latest \
+	--tag $(TAG_PREFIX)ub-18.04-irods-4.2.10:$(TAG) --file $< ./irods
 	touch $@
 
 ub-18.04-irods-4.2.11.$(TAG): irods/ubuntu/18.04/Dockerfile ub-18.04-base.$(TAG)
 	docker build $(DOCKER_ARGS) --build-arg IRODS_VERSION=4.2.11-1~bionic \
-	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
+	--build-arg FROM_PREFIX=$(TAG_PREFIX) \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
-	--tag $(DOCKER_USER)/ub-18.04-irods-4.2.11:latest \
-	--tag $(DOCKER_USER)/ub-18.04-irods-4.2.11:$(TAG) --file $< ./irods
+	--tag $(TAG_PREFIX)ub-18.04-irods-4.2.11:latest \
+	--tag $(TAG_PREFIX)ub-18.04-irods-4.2.11:$(TAG) --file $< ./irods
 	touch $@
 
 %.$(TAG).pushed: %.$(TAG)
-	docker push $(DOCKER_REGISTRY)/$(DOCKER_USER)/$*:$(TAG)
+	docker push $(TAG_PREFIX)$*:$(TAG)
 	touch $@
 
 remote-clean:
