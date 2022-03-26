@@ -28,7 +28,7 @@ jobs:
       - name: Build
         run: |
             cd docker
-            make GITHUB_ACTOR=${{ github.actor || github.repository_owner }}
+            make GITHUB_ACTIONS=1 GITHUB_ACTOR=${{ github.actor || github.repository_owner }}
 
       - name: push images
         run: |
