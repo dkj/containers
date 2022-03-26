@@ -22,15 +22,15 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: ${{ github.actor || github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
         run: |
             cd docker
-            make GITHUB_ACTOR=${{ github.actor }}
+            make GITHUB_ACTOR=${{ github.actor || github.repository_owner }}
 
       - name: push images
         run: |
             docker images
-            make push GITHUB_ACTIONS=${{ env.GITHUB_ACTIONS }} GITHUB_ACTOR=${{ github.actor }}
+            make push GITHUB_ACTIONS=${{ env.GITHUB_ACTIONS }} GITHUB_ACTOR=${{ github.actor || github.repository_owner }}
