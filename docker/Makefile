@@ -68,6 +68,7 @@ md-bullseye-base.$(TAG): base/minideb/bullseye/Dockerfile
 
 centos-7-conda.$(TAG): conda/centos/7/Dockerfile centos-7-base.$(TAG)
 	docker build $(DOCKER_ARGS) \
+	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
 	--tag $(DOCKER_USER)/centos-7-conda:latest \
@@ -76,6 +77,7 @@ centos-7-conda.$(TAG): conda/centos/7/Dockerfile centos-7-base.$(TAG)
 
 centos-7-conda-build.$(TAG): conda/centos/7/build/Dockerfile centos-7-conda.$(TAG)
 	docker build $(DOCKER_ARGS) \
+	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
 	--tag $(DOCKER_USER)/centos-7-conda-build:latest \
@@ -84,6 +86,7 @@ centos-7-conda-build.$(TAG): conda/centos/7/build/Dockerfile centos-7-conda.$(TA
 
 md-bullseye-conda.$(TAG): conda/minideb/bullseye/Dockerfile md-bullseye-base.$(TAG)
 	docker build $(DOCKER_ARGS) \
+	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
 	--tag $(DOCKER_USER)/md-bullseye-conda:latest \
@@ -92,6 +95,7 @@ md-bullseye-conda.$(TAG): conda/minideb/bullseye/Dockerfile md-bullseye-base.$(T
 
 ub-16.04-irods-4.2.7.$(TAG): irods/ubuntu/16.04/Dockerfile ub-16.04-base.$(TAG)
 	docker build $(DOCKER_ARGS) \
+	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
 	--tag $(DOCKER_USER)/ub-16.04-irods-4.2.7:latest \
@@ -100,6 +104,7 @@ ub-16.04-irods-4.2.7.$(TAG): irods/ubuntu/16.04/Dockerfile ub-16.04-base.$(TAG)
 
 ub-18.04-irods-4.2.10.$(TAG): irods/ubuntu/18.04/Dockerfile ub-18.04-base.$(TAG)
 	docker build $(DOCKER_ARGS) --build-arg IRODS_VERSION=4.2.10 \
+	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
 	--tag $(DOCKER_USER)/ub-18.04-irods-4.2.10:latest \
@@ -108,6 +113,7 @@ ub-18.04-irods-4.2.10.$(TAG): irods/ubuntu/18.04/Dockerfile ub-18.04-base.$(TAG)
 
 ub-18.04-irods-4.2.11.$(TAG): irods/ubuntu/18.04/Dockerfile ub-18.04-base.$(TAG)
 	docker build $(DOCKER_ARGS) --build-arg IRODS_VERSION=4.2.11-1~bionic \
+	--build-arg FROM_PREFIX=$(DOCKER_USER)/ \
 	--label $(LABEL_NAMESPACE).repository=$(git_url) \
 	--label $(LABEL_NAMESPACE).commit=$(git_commit) \
 	--tag $(DOCKER_USER)/ub-18.04-irods-4.2.11:latest \

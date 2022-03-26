@@ -1,4 +1,5 @@
-FROM wsinpg/ub-16.04-base:latest
+ARG FROM_PREFIX=wsinpg/
+FROM ${FROM_PREFIX}ub-16.04-base:latest
 
 ARG IRODS_VERSION=4.2.7
 ARG IRODS_PACKAGES_URL=https://packages.irods.org
